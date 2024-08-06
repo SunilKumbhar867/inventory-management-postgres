@@ -1,4 +1,4 @@
-name: NASA PROJECT CI
+name: Inventory Management
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version: [19.x,20.x]
-        # postgres-version: ['5.0','6.0']
+        # postgres-version: ['5.0','6.0']   
     runs-on: windows-latest
     # services:
     #   postgres:
@@ -42,6 +42,14 @@ jobs:
       #   uses: supercharge/mongodb-github-action@v1.10.0 
       #   with:
       #     mongodb-version: ${{ matrix.mongodb-version }}
+      - uses: ikalnytskyi/action-setup-postgres@v6 
+        with:
+          username: postgres
+          password: admin
+          database: postgres
+          port: 5432
+        # id: postgres
+  
   
       - run: npm install
       # - run: npm run build --prefix client
