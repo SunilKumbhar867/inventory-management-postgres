@@ -1,34 +1,40 @@
-# Use a multi-stage build for smaller image size
-FROM node:18-alpine as build
+# # Use a multi-stage build for smaller image size
+#  FROM node:22-alpine as build
 
-# Set working directory
+#for latest version of node use lts
+FROM node:lts-apline
+
+# Set working directory 
 WORKDIR /app
-
-# Copy package.json and install dependencies
-COPY package*.json ./
-RUN npm install
-
-# Copy the rest of the application code
 COPY . .
+ # Copy package.json and install dependencies
+COPY package*.json ./
+RUN npm run start --only=production
 
-# Build the application
-RUN npm run build
+# # Copy the rest of the application code
 
-# Use a smaller production-optimized image
-FROM node:18-alpine
 
-# Set working directory
-WORKDIR /app
+# # Build the application
+# RUN npm run build
 
-# Copy only the necessary files from the build stage
-COPY --from=build /app/dist /app
-COPY --from=build /app/package*.json ./
+# # Use a smaller production-optimized image
+# FROM node:18-alpine
 
-# Install only production dependencies
-RUN npm install --production
+# # Set working directory
+# WORKDIR /app
 
-# Expose the port your app listens on
+# # Copy only the necessary files from the build stage
+# COPY --from=build /app/dist /app
+# COPY --from=build /app/package*.json ./
+
+# # Install only production dependencies
+# RUN npm install --production
+
+# # Expose the port your app listens on
+# EXPOSE 3000
+
+USER node
+# # Start the application
+# CMD ["node", "dist/app.js"]
+CMD ["npm", "start"]
 EXPOSE 3000
-
-# Start the application
-CMD ["node", "dist/app.js"]
