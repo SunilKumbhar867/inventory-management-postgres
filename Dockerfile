@@ -2,7 +2,7 @@
 #  FROM node:22-alpine as build
 
 #for latest version of node use lts
-FROM node:lts-alpine
+FROM node:20.16.0
 
 # Set working directory 
 WORKDIR /usr/src/app
