@@ -2,14 +2,16 @@
 #  FROM node:22-alpine as build
 
 #for latest version of node use lts
-FROM node:lts-apline
+FROM node:lts-alpine
 
 # Set working directory 
-WORKDIR /app
-COPY . .
- # Copy package.json and install dependencies
-COPY package*.json ./
-RUN npm run start --only=production
+WORKDIR /usr/src/app
+COPY package*.json ./   
+RUN npm install         
+COPY . .                                                                                                                                                                                                                                        
+# Copy package.json and install dependencies
+# COPY package*.json ./
+# RUN npm run start --only=production
 
 # # Copy the rest of the application code
 
@@ -36,5 +38,6 @@ RUN npm run start --only=production
 USER node
 # # Start the application
 # CMD ["node", "dist/app.js"]
-CMD ["npm", "start"]
+
 EXPOSE 3000
+CMD ["npm", "run", "start"]
